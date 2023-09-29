@@ -99,8 +99,8 @@
                                                 <div class="form-group">
                                                     <label>Choose a Role</label>
                                                     <select name="role" th:field="*{roleDTO}" class="custom-select">
-                                                        <option th:value="" th:text="Select"></option>
-                                                        <option th:each="role: ${}"></option>
+                                                        <<option th:value="" th:text="Select"></option>
+                                                        <option th:each="role: ${roles}"></option>
                                                     </select>
                                                 </div>
                                             </div>
