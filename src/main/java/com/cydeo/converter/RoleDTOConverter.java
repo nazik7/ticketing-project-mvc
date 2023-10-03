@@ -1,4 +1,4 @@
-package converter;
+package com.cydeo.converter;
 
 import com.cydeo.dto.RoleDTO;
 import com.cydeo.service.RoleService;
