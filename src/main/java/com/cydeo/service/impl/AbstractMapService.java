@@ -1,5 +1,6 @@
 package com.cydeo.service.impl;
 
+import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ public abstract class AbstractMapService<ID,T> {
     List<T> findAll(){
         return new ArrayList<>(map.values());
     }
-    public abstract void update(UserDTO object);
 
     T findById(ID id){
         return map.get(id);
@@ -29,4 +29,6 @@ public abstract class AbstractMapService<ID,T> {
     void update(ID id, T object){
         map.put(id, object);
     }
+
+
 }
