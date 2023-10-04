@@ -40,15 +40,17 @@ public class UserController {
     }
     @GetMapping("/update/{username}")
     public String editUser(@PathVariable("username")String username, Model model){
+
         model.addAttribute("user",userService.findById(username));
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("users", userService.findAll());
         return "/user/update";
     }
 
-//    @PostMapping("/update/{username}")
-//    public String editUser(@PathVariable("username")String username){
-//        return "/user/create";
-//    }
+    @PostMapping("/update/{username}")
+    public String updateUser(@PathVariable("username")String username,UserDTO user){
+        userService.update(user);
+        return "redirect:/user/create";
+    }
 
 }
