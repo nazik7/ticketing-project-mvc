@@ -2,13 +2,12 @@ package com.cydeo.controller;
 
 import com.cydeo.bootstrap.DataGenerator;
 import com.cydeo.dto.ProjectDTO;
+import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping ("/project")
 @Controller
@@ -29,8 +28,17 @@ public class ProjectController {
     }
 
     @PostMapping("/create")
-    public String create(){
+    public String insertProject(@ModelAttribute("project") ProjectDTO projectDTO){
+        projectService.save(projectDTO);
         return "redirect:/project/create";
+    }
+
+    @GetMapping("update/{projectCode}")
+    public String update(@PathVariable String projectCode, Model model){
+        model.addAttribute("project", projectService.findById(projectCode));
+        model.addAttribute("projects",projectService.findAll());
+        model.addAttribute("managers", userService.findAll());
+        return "project/update";
     }
 
 }

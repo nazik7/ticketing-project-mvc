@@ -2,6 +2,7 @@ package com.cydeo.service.impl;
 
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.UserDTO;
+import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,9 @@ import java.util.List;
 public class ProjectServiceImpl extends AbstractMapService<String, ProjectDTO> implements ProjectService {
     @Override
     public ProjectDTO save(ProjectDTO object) {
+        if(object.getProjectStatus() == null){
+            object.setProjectStatus(Status.OPEN);
+        }
         return super.save(object.getProjectCode(),object);
     }
 
