@@ -33,9 +33,15 @@ public class ProjectController {
         return "redirect:/project/create";
     }
 
-    @GetMapping("/delete/{projectcode}")
-    public String delete(@PathVariable("projectcode") String projectCode, Model model){
+    @GetMapping("/delete/{projectCode}")
+    public String delete(@PathVariable("projectCode") String projectCode, Model model){
        projectService.deleteById(projectCode);
+        return "redirect:/project/create";
+    }
+
+    @GetMapping("/complete/{projectCode}")
+    public String complete(@PathVariable String projectCode){
+        projectService.complete(projectService.findById(projectCode));
         return "redirect:/project/create";
     }
 
