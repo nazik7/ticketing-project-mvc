@@ -23,7 +23,7 @@ public class ProjectController {
     public String createProject(Model model){
         model.addAttribute("project", new ProjectDTO());
         model.addAttribute("projects",projectService.findAll());
-        model.addAttribute("managers", userService.findAll());
+        model.addAttribute("managers", userService.findManagers());
         return "/project/create";
     }
 
@@ -37,7 +37,7 @@ public class ProjectController {
     public String update(@PathVariable String projectCode, Model model){
         model.addAttribute("project", projectService.findById(projectCode));
         model.addAttribute("projects",projectService.findAll());
-        model.addAttribute("managers", userService.findAll());
+        model.addAttribute("managers", userService.findManagers());
         return "project/update";
     }
 
