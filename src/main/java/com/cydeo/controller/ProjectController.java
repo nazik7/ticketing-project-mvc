@@ -45,4 +45,20 @@ public class ProjectController {
         return "redirect:/project/create";
     }
 
+    @GetMapping("/update/{projectCode}")
+    public String update(@PathVariable String projectCode, Model model){
+
+        model.addAttribute("project", projectService.findById(projectCode));
+        model.addAttribute("projects",projectService.findAll());
+        model.addAttribute("managers", userService.findManagers());
+        projectService.update(projectService.findById(projectCode));
+        return "/project/update";
+    }
+
+    @PostMapping("/update")
+    public String postUpdates(@ModelAttribute ProjectDTO projectDTO){
+        projectService.update(projectDTO);
+        return "redirect:/project/create";
+    }
+
 }
