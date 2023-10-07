@@ -32,14 +32,14 @@
                                 <div class="panel-body">
 
                                     <!-- ------------------------FORM START----------------------------- -->
-                                    <form th:action="@{/task/create}" th:object="${task}" >
+                                    <form th:action="@{/task/create}" th:object="${task}" method="post" >
 
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-group">
                                                     <label>Project</label>
                                                     <select name="project"  th:field="*{projectDTO}" class="custom-select">
-                                                        <option th:each="project:${projects}" th:text="${project.projectName}"></option>
+                                                        <option th:each="project:${projects}" th:text="${project.projectName}" th:value="${project.projectCode}"></option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -50,7 +50,7 @@
                                                 <div class="form-group">
                                                     <label>Assigned Employee</label>
                                                     <select th:field="*{userDTO}" name="assignedemployee" class="custom-select">
-                                                        <option th:each="assignedEmployee: ${employees}" th:text="${assignedEmployee.firstName +' '+ assignedEmployee.lastName}"></option>
+                                                        <option th:each="assignedEmployee: ${employees}" th:text="${assignedEmployee.firstName +' '+ assignedEmployee.lastName}" th:value="${assignedEmployee.userName}"></option>
                                                     </select>
                                                 </div>
                                             </div>

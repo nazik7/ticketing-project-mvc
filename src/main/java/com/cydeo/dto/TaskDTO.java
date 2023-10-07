@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 public class TaskDTO {
+
     private Long id;
     private ProjectDTO projectDTO;
     private UserDTO userDTO;
