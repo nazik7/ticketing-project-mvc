@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 public class TaskDTO {
 
@@ -21,4 +21,16 @@ public class TaskDTO {
     private String taskDetail;
     private LocalDate assignedDate;
     private Status taskStatus;
+
+    public TaskDTO(ProjectDTO project, UserDTO assignedEmployee, String taskSubject, String taskDetail, Status taskStatus,
+                   LocalDate assignedDate) {
+        this.projectDTO = project;
+        this.userDTO = assignedEmployee;
+        this.taskSubject = taskSubject;
+        this.taskDetail = taskDetail;
+        this.taskStatus = taskStatus;
+        this.assignedDate = assignedDate;
+        this.id = UUID.randomUUID().getMostSignificantBits();
+
+    }
 }
