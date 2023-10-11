@@ -7,6 +7,8 @@ import com.cydeo.service.ProjectService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ProjectServiceImpl extends AbstractMapService<String, ProjectDTO> implements ProjectService {
     @Override
@@ -46,5 +48,12 @@ public class ProjectServiceImpl extends AbstractMapService<String, ProjectDTO> i
     public void complete(ProjectDTO projectDTO) {
         projectDTO.setProjectStatus(Status.COMPLETE);
         super.save(projectDTO.getProjectCode(),projectDTO);
+    }
+
+    @Override
+    public List<ProjectDTO> getCountedListOfProjectDTO(UserDTO manager) {
+        return findAll().stream()
+                .filter(projectDTO -> projectDTO.getAssignedManager().getUserName().equals(manager.getUserName()))
+                .collect(Collectors.toList());
     }
 }
