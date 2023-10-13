@@ -1,9 +1,11 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.ProjectDTO;
+import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
+import com.cydeo.service.TaskService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,6 +13,11 @@ import java.util.stream.Collectors;
 
 @Component
 public class ProjectServiceImpl extends AbstractMapService<String, ProjectDTO> implements ProjectService {
+    TaskService taskService;
+
+    public ProjectServiceImpl(TaskService taskService){
+        this.taskService = taskService;
+    }
     @Override
     public ProjectDTO save(ProjectDTO object) {
         if(object.getProjectStatus() == null){
@@ -52,8 +59,19 @@ public class ProjectServiceImpl extends AbstractMapService<String, ProjectDTO> i
 
     @Override
     public List<ProjectDTO> getCountedListOfProjectDTO(UserDTO manager) {
-        return findAll().stream()
-                .filter(projectDTO -> projectDTO.getAssignedManager().getUserName().equals(manager.getUserName()))
+        List<ProjectDTO> projectDTOList = findAll().stream()
+                .filter(projectDTO -> projectDTO.getAssignedManager().equals(manager))
+                .map(projectDTO -> {
+                    List<TaskDTO> taskList = taskService.findTasksByManager(manager);
+                    int completeTaskCounts = (int)taskList.stream().filter(taskDTO -> taskDTO.getProjectDTO().equals(projectDTO)
+                            && taskDTO.getTaskStatus() == Status.COMPLETE).count();
+                    int unfinishedTaskCounts = (int)taskList.stream().filter(taskDTO -> taskDTO.getProjectDTO().equals(projectDTO)
+                            && taskDTO.getTaskStatus() != Status.COMPLETE  ).count();;
+                    projectDTO.setCompleteTaskCounts(completeTaskCounts);
+                    projectDTO.setUnfinishedTaskCounts(unfinishedTaskCounts);
+                    return projectDTO;
+                })
                 .collect(Collectors.toList());
+        return projectDTOList;
     }
 }
