@@ -73,4 +73,10 @@ public class ProjectController {
         return "/manager/project-status";
     }
 
+    @GetMapping("/manager/complete/{id}")
+    public String completeProject(@PathVariable String id){
+        projectService.complete(projectService.findById(id));
+        return "redirect:/project/manager/project-status";
+    }
+
 }
