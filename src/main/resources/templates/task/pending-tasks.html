@@ -41,14 +41,14 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                            <tr th:each="task: ${tasks}">
+                                                <td th:text="${task.projectDTO.projectName}"></td>
+                                                <td th:text="${task.taskSubject}"></td>
+                                                <td th:text="${task.userDTO.firstName +' '+ task.userDTO.lastName}"></td>
+                                                <td th:text="${task.assignedDate}"></td>
+                                                <td th:text="${task.taskStatus.value}"></td>
                                                 <td>
-                                                    <a href="#" class="btn btn-warning rounded-0">Update</a>
+                                                    <a th:href="@{/task/employee/update/{id}(id=${task.id})}" class="btn btn-warning rounded-0">Update</a>
                                                 </td>
                                             </tr>
                                             </tbody>
