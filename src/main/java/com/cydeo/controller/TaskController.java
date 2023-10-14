@@ -1,11 +1,14 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.TaskDTO;
+import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -67,4 +70,28 @@ public class TaskController {
         model.addAttribute("tasks",taskService.findAllUnfinishedTasks());
         return "/task/pending-tasks";
     }
+
+    @GetMapping("/employee/edit/{taskId}")
+    public String employeeEditTask(@PathVariable("taskId") Long taskId, Model model){
+        model.addAttribute("task",taskService.findById(taskId));
+        model.addAttribute("tasks",taskService.findAllUnfinishedTasks());
+        model.addAttribute("statuses", Status.values());
+        return "/task/status-update";
+    }
+
+    @PostMapping("/employee/update/{taskId}")
+    public String employeeUpdateTask(@Validated @ModelAttribute("task")TaskDTO task, Model model, BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("tasks", taskService.findAllUnfinishedTasks());
+            model.addAttribute("statuses", Status.values());
+
+            return "/task/status-update";
+
+        }
+        taskService.updateStatus(task);
+        return "redirect:/task/employee/pending-tasks";
+    }
+
 }
